@@ -1,0 +1,370 @@
+html {
+    overflow: hidden;
+}
+
+.header {
+    height: 10vh;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px;
+    border-color: rgb(0, 0, 0);
+    border-style:  none none solid none;
+}
+
+.header-logo {
+    max-height: 80%;
+    object-fit: cover;
+    position: absolute;
+    left: 0;
+}
+
+.header-tittle {
+
+}
+
+
+.main {
+    height: 85vh;
+    display: flex;
+}
+
+
+
+
+
+.sidebar {
+    width: 25%;
+    height: 85vh;
+    padding: 0 0.625rem;
+    border: 2px rgb(0, 0, 0);
+    border-style: none solid none none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(219, 219, 219);
+    transition: all .4s ease-out;
+    z-index: 1;
+}
+
+.sidebar-btn {
+    display: none;
+}
+
+
+
+
+.dropzone {
+    position: relative;
+    flex-grow: 2;
+    width: 100%;
+    margin: 0.625rem 0;
+    border: 0.1875rem rgb(0, 0, 0) solid;
+    border-radius: 1.5625rem;
+    background-color: rgb(168, 168, 168);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+
+
+.dropzone-icon {
+    font-size: 3rem;
+}
+
+.dropzone-text {
+    text-align: center;
+    font-size: 1.5rem;
+    line-height : 3rem;
+}
+
+.dropzone-btn {
+    display: none;
+}
+
+.dropzone-btn-label {
+    font-size: 1.5rem;
+    background-color: rgb(255, 255, 255);
+    border: 0.0625rem solid rgb(0, 0, 0);
+    border-radius: 0.1875rem;
+    padding: 0.1875rem;
+    white-space: nowrap;
+}
+
+.dropzone-btn-label:hover {
+    background-color: rgb(200, 200, 200);
+}
+
+
+.dropzone-active .dropzone-btn-label {
+    opacity: 0;
+}
+
+.dropzone-active::before {
+    content: " ";
+    position: absolute;
+    z-index: -1;
+    top: 0.3125rem;
+    left: 0.3125rem;
+    right: 0.3125rem;
+    bottom: 0.3125rem;
+    border: 0.3125rem rgb(0, 0, 0) dashed;
+    border-radius: 1.5625rem;
+}
+
+@media (max-device-width: 700px) {
+    .dropzone-text {
+        display: none;
+    }
+}
+
+
+
+
+
+.sidebar-section-page-size, .sidebar-section-page-orientation {
+    font-size: 1.5rem;
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+}
+
+.sidebar-section-page-orientation-hidden {
+    opacity: 0;
+    user-select: none;
+}
+
+.sidebar-section-generate-pdf {
+    font-size: 1.5rem;
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+}
+
+.paper-attribute-tittle {
+    font-size: 1.5rem;
+}
+
+.paper-size {
+    width: 100%;
+}
+
+.paper-orientation {
+    width: 100%;
+}
+
+.generate-pdf-btn {
+    height: 70%;
+    width: 90%;
+    background-color: rgb(255, 255, 255);
+}
+
+.generate-pdf-btn:hover {
+    background-color: rgb(200, 200, 200);
+}
+
+
+
+.div-files-container {
+    background-color: rgb(200, 200, 200);
+    flex-grow: 1;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr));
+    place-items: start center;
+    gap: 3rem;
+    padding: 3rem;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+
+
+
+.file-card-border {
+    --border-width: 12.5rem;
+    --border-height: 12.5rem;
+    width: var(--border-width);
+    height: var(--border-height);
+}
+
+.file-card-margin {
+    width: 100%;
+    height: 100%;
+    box-shadow: 0 0 0.25rem 0 rgb(141, 141, 141);
+    background-color: rgb(241, 241, 241);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: grab;
+    position: relative;
+}
+
+.file-card-border-ghostClass {
+    border: 0.0625rem dashed rgb(0, 0, 255);
+}
+
+.file-card-border-ghostClass .file-card-margin {
+    opacity: 0;
+}
+
+.file-card-border-dragClass .btns-container {
+    opacity: 0;
+}
+
+
+
+.file-card-margin:hover {
+    background-color: rgb(245, 245, 245);
+}
+
+.btns-container {
+    width: fit-content;
+    height: fit-content;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    top: 0.3125rem;
+    right: 0.3125rem;
+    display: flex;
+    z-index: 1;
+}
+
+.rotate-btn, .delete-btn {
+    width: 1.5rem;
+    height: 1.5rem;
+    font-size: 1.25rem;
+    margin: auto 0.625rem;
+    border-radius: 50%;
+    background-color: rgb(179, 179, 179);
+    color: rgb(0, 0, 0);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.rotate-btn:hover, .delete-btn:hover {
+    background-color: rgb(0, 238, 255);
+    color: rgb(255, 255, 255);
+}
+
+
+.file-card-paper {
+    width: calc(var(--border-width) * var(--width-percentage));
+    height: calc(var(--border-height) * var(--height-percentage));
+    box-shadow: 0 0 0.25rem 0 rgb(204, 204, 204);
+    background-color: rgba(255, 255, 255);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.file-card-paper-adjusted {
+    --width-percentage: .9;
+    --height-percentage: .9;
+    box-shadow: none;
+    background-color: rgba(255, 255, 255, 0);
+}
+
+.file-card-paper-vertical {
+    --width-percentage: .6;
+    --height-percentage: .9;
+}
+
+.file-card-paper-horizontal {
+    --width-percentage: .9;
+    --height-percentage: .6;
+}
+
+
+
+
+
+.file-card-image {
+    --angle: 0;
+    --width: calc(var(--border-width) * var(--width-percentage));
+    --height: calc(var(--border-height) * var(--height-percentage));
+    max-width: var(--width);
+    max-height: var(--height);
+    object-fit: contain;
+    transform: rotate(calc(-1deg * var(--angle)));
+}
+
+
+footer {
+    height: 5vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(0, 0, 0);
+    color: rgb(255, 255, 255);
+}
+
+
+.modal-container {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+}
+
+.modal-content {
+    width: 50%;
+    height: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.loading-gif {
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: 2%;
+}
+
+.closed-modal {
+    display: none;
+}
+
+
+
+
+@media (max-device-width: 700px) {
+    .sidebar {
+        position: absolute;
+        min-width: fit-content;
+        max-width: calc(100vw - 6.25rem);
+    }
+
+    .sidebar-closed {
+        transform: translateX(-100%);
+    }
+
+    .sidebar-btn {
+        font-size: 5rem;
+        position: absolute;
+        top: 0.625rem;
+        right: -5.625rem;
+        z-index: 1;
+        cursor: pointer;
+        background-color: rgb(255, 255, 255);
+        color: rgb(0, 0, 0);
+        border-radius: 50%;
+        display: flex;
+    }
+}
