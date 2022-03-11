@@ -276,15 +276,6 @@ function updatefileCardPaperSizeOrientation() {
 
 
 
-// function fixFileCardImageDimensions(fileCardImage) {
-//     let fileCardContainer = fileCardImage.parentElement;
-//     let angle = parseInt(getComputedStyle(fileCardImage).getPropertyValue('--angle'));
-
-// }
-
-
-
-
 
 
 

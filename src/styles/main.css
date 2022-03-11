@@ -68,6 +68,7 @@ html {
     align-items: center;
     justify-content: center;
     flex-direction: column;
+    cursor: pointer;
 }
 
 
@@ -82,27 +83,6 @@ html {
     line-height : 3rem;
 }
 
-.dropzone-btn {
-    display: none;
-}
-
-.dropzone-btn-label {
-    font-size: 1.5rem;
-    background-color: rgb(255, 255, 255);
-    border: 0.0625rem solid rgb(0, 0, 0);
-    border-radius: 0.1875rem;
-    padding: 0.1875rem;
-    white-space: nowrap;
-}
-
-.dropzone-btn-label:hover {
-    background-color: rgb(200, 200, 200);
-}
-
-
-.dropzone-active .dropzone-btn-label {
-    opacity: 0;
-}
 
 .dropzone-active::before {
     content: " ";
@@ -115,14 +95,6 @@ html {
     border: 0.3125rem rgb(0, 0, 0) dashed;
     border-radius: 1.5625rem;
 }
-
-@media (max-device-width: 700px) {
-    .dropzone-text {
-        display: none;
-    }
-}
-
-
 
 
 
@@ -137,7 +109,7 @@ html {
 
 .sidebar-section-page-orientation-hidden {
     opacity: 0;
-    user-select: none;
+    transform: scale(0);
 }
 
 .sidebar-section-generate-pdf {
@@ -150,15 +122,15 @@ html {
     width: 100%;
 }
 
-.paper-attribute-tittle {
+.page-attribute-tittle {
     font-size: 1.5rem;
 }
 
-.paper-size {
+.page-size {
     width: 100%;
 }
 
-.paper-orientation {
+.page-orientation {
     width: 100%;
 }
 
@@ -258,7 +230,7 @@ html {
 }
 
 
-.file-card-paper {
+.file-card-page {
     width: calc(var(--border-width) * var(--width-percentage));
     height: calc(var(--border-height) * var(--height-percentage));
     box-shadow: 0 0 0.25rem 0 rgb(204, 204, 204);
@@ -268,19 +240,19 @@ html {
     justify-content: center;
 }
 
-.file-card-paper-adjusted {
+.file-card-page-adjusted {
     --width-percentage: .9;
     --height-percentage: .9;
     box-shadow: none;
     background-color: rgba(255, 255, 255, 0);
 }
 
-.file-card-paper-vertical {
+.file-card-page-vertical {
     --width-percentage: .6;
     --height-percentage: .9;
 }
 
-.file-card-paper-horizontal {
+.file-card-page-horizontal {
     --width-percentage: .9;
     --height-percentage: .6;
 }
@@ -293,8 +265,8 @@ html {
     --angle: 0;
     --width: calc(var(--border-width) * var(--width-percentage));
     --height: calc(var(--border-height) * var(--height-percentage));
-    max-width: var(--width);
-    max-height: var(--height);
+    /* max-width: var(--width);
+    max-height: var(--height); */
     object-fit: contain;
     transform: rotate(calc(-1deg * var(--angle)));
 }
