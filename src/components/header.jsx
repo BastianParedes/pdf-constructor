@@ -4,7 +4,7 @@ class Header extends React.Component {
     render() {
         return (
             <header className="header">
-                <img className="header-logo" src={require("../images/logo.png")}/>
+                <img className="header-logo" alt='Bastián Paredes' src={require("../images/logo.png")}/>
                 <h1 className="header-tittle">Imagen a PDF</h1>
             </header>
         );

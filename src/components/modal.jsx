@@ -4,7 +4,7 @@ function Modal() {
     return (
         <div className="modal-container">
             <div className="modal-content">
-                <img src={require("../images/loading.gif")} className="loading-gif"/>
+                <img alt='Loading' src={require("../images/loading.gif")} className="loading-gif"/>
             </div>
         </div>
     );

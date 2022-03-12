@@ -35,7 +35,7 @@ function FileCard(props) {
             <div className="file-card-margin">
             <BtnsContainer rotateImage={props.rotateImage} deleteFileCard={props.deleteFileCard}/>
                 <div className={"file-card-page " +(props.pageSize === 'adjusted' ? 'file-card-page-adjusted' : props.pageOrientation === 'portrait' ? 'file-card-page-vertical' : 'file-card-page-horizontal')}>
-                    <img className="file-card-image" src={base64} style={{
+                    <img className="file-card-image" alt='Image' src={base64} style={{
                         "maxWidth": (props.imageRotation % 180 === 0 ? "var(--width)" : "var(--height)"),
                         "maxHeight": (props.imageRotation % 180 === 0 ? "var(--height)" : "var(--width)"),
                         '--angle': props.imageRotation

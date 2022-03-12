@@ -1,7 +1,7 @@
 import React from 'react';
 import Dropzone from 'react-dropzone';
 
-import Sortable from 'sortablejs';
+import {ReactSortable} from "react-sortablejs";
 import jsPDF from 'jspdf';
 
 import pageSizes from '../pageSizes.json';
@@ -90,8 +90,6 @@ class Main extends React.Component {
 
                         doc.addImage(base64, 'png', leftMargin, topMargin, newImageWidth, newImageHeight);
                     }
-
-
                     resolve();
                 });
             }));
@@ -100,31 +98,6 @@ class Main extends React.Component {
             this.setState({openedModal: false});
             doc.save('PDF constructor.pdf');
         }));
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     }
 
     onDrop = (files) => {
@@ -217,7 +190,7 @@ class Main extends React.Component {
         return (
             <main className="main">
                 <this.Sidebar />
-                <div className="div-files-container" dragging="false">
+                <ReactSortable className="div-files-container" animation='300' ghostClass='file-card-border-ghostClass' dragClass='file-card-border-dragClass' list={this.state.files} setList={(newState) => this.setState({files: newState})}>
                     {this.state.files.map((info) => <FileCard
                         key={info.key}
                         file={info.file}
@@ -229,7 +202,7 @@ class Main extends React.Component {
                         deleteFileCard={() => {this.deleteFileCard(info.key)}}
 
                     />)}
-                </div>
+                </ReactSortable>
                 {this.state.openedModal ? <Modal /> : <></>}
             </main>
         );
