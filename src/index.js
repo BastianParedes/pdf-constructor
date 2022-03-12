@@ -21,12 +21,3 @@ ReactDOM.render(
 
 
 
-
-// //drag and drop
-// let sortable = new Sortable(divFilesContainer, {
-//     animation: 300,
-//     ghostClass: 'file-card-border-ghostClass',
-// 	dragClass: 'file-card-border-dragClass',
-// });
-
-
