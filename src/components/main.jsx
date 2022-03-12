@@ -7,6 +7,7 @@ import jsPDF from 'jspdf';
 import pageSizes from '../pageSizes.json';
 
 import FileCard from './fileCard.jsx';
+import Modal from './modal.jsx';
 
 class Main extends React.Component {
     state = {
@@ -15,14 +16,11 @@ class Main extends React.Component {
         dropZoneActive: false,
         pageSize: "adjusted",
         pageOrientation: "portrait",
+        openedModal: false
     }
 
     numberOfUploadedFiles = 0;
     keyToBase64 = {}; //[{key:base64}]
-
-    toggleSidebar = () => {
-        this.setState({openedSidebar: !this.state.openedSidebar});
-    }
 
     updatePage = event => {
         this.setState({
@@ -31,16 +29,102 @@ class Main extends React.Component {
     }
 
     generatePdf = () => {
-        console.log(this.state.files);
-        console.log(this.keyToBase64);
-    }
+        if (this.state.files.length === 0) {
+            alert('No has ingresado ninguna imagen.');
+            return;
+        };
 
-    activateDropZone = () => {
-        this.setState({dropZoneActive: true});
-    }
+        this.setState({openedModal: true});
+        let doc = new jsPDF();
+        doc.deletePage(1);
 
-    deactivateDropZone = () => {
-        this.setState({dropZoneActive: false});
+        let promise = Promise.resolve();
+
+
+
+        for (let info of this.state.files) {
+            promise = promise.then(() => new Promise((resolve, reject) => {
+                let base64 = this.keyToBase64[info.key];
+
+                let image = new Image();
+                image.src = base64;
+                image.addEventListener('load', (event) => {
+                    let imageWidth;
+                    let imageHeight;
+                    if (info.imageRotation === 0) { //imagen sin rotar
+                        imageWidth = image.width;
+                        imageHeight = image.height;
+
+                    } else { // imagen rotada
+                        const canvas = document.createElement('canvas');
+                        let ctx = canvas.getContext("2d");
+                        canvas.width = info.imageRotation % 180 === 0 ? image.width : image.height;
+                        canvas.height = info.imageRotation % 180 === 0 ? image.height : image.width;
+
+                        ctx.translate(canvas.width / 2, canvas.height / 2);
+                        ctx.rotate(-info.imageRotation * Math.PI / 180);
+                        ctx.drawImage(image, image.width / -2, image.height / -2);
+
+                        base64 = canvas.toDataURL();
+
+                        let imageInfo = doc.getImageProperties(base64);
+                        imageWidth = imageInfo['width'];
+                        imageHeight = imageInfo['height'];
+                    }
+
+                    if (this.state.pageSize === 'adjusted') {
+                        doc.addPage();
+                        doc.internal.pageSize.setWidth(imageWidth);
+                        doc.internal.pageSize.setHeight(imageHeight);
+                        doc.addImage(base64, 'png', 0, 0, imageWidth, imageHeight);
+                    } else {
+                        doc.addPage(this.state.pageSize, this.state.pageOrientation);
+                        let pageWidth = doc.internal.pageSize.getWidth();
+                        let pageHeight = doc.internal.pageSize.getHeight();
+
+                        let newImageWidth = pageWidth / pageHeight <= imageWidth / imageHeight ? pageWidth : imageWidth * pageHeight / imageHeight;
+                        let newImageHeight = pageWidth / pageHeight <= imageWidth / imageHeight ? imageHeight * pageWidth / imageWidth : pageHeight;
+
+                        let leftMargin = (pageWidth - newImageWidth) / 2;
+                        let topMargin = (pageHeight - newImageHeight) / 2;
+
+                        doc.addImage(base64, 'png', leftMargin, topMargin, newImageWidth, newImageHeight);
+                    }
+
+
+                    resolve();
+                });
+            }));
+        };
+        promise.then(() => new Promise((resolve, reject) => {
+            this.setState({openedModal: false});
+            doc.save('PDF constructor.pdf');
+        }));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
 
     onDrop = (files) => {
@@ -59,13 +143,27 @@ class Main extends React.Component {
         });
     }
 
-    updateBase64 = (key, base64) => {
-        this.keyToBase64[key] = base64;
-    };
+
+    rotateImage = (key) => {
+        let updatedFiles = this.state.files.map(info => {
+            if(info.key === key) {
+                info['imageRotation'] = (info['imageRotation'] + 90) % 360;
+            }
+            return info;
+        });
+        this.setState({files: updatedFiles});
+        console.log('rotar');
+    }
+
+    deleteFileCard = (key) => {
+        let updatedFiles = this.state.files.filter(info => info.key !== key);
+        this.setState({files: updatedFiles});
+        console.log('borrar');
+    }
 
     MyDropZone = () => {
         return (
-            <Dropzone onDrop={this.onDrop} onDragOver={this.activateDropZone} onDragLeave={this.deactivateDropZone}>
+            <Dropzone onDrop={this.onDrop} onDragOver={() => this.setState({dropZoneActive: true})} onDragLeave={() => this.setState({dropZoneActive: false})}>
                 {({getRootProps, getInputProps}) => (
                     <div className={"dropzone " + (this.state.dropZoneActive ? 'dropzone-active' : '')} {...getRootProps()}>
                         <span className="dropzone-icon"><i className='bx bx-image-add'></i></span>
@@ -102,7 +200,7 @@ class Main extends React.Component {
     Sidebar = () => {
         return (
             <div className={"sidebar " + (this.state.openedSidebar ? '' : 'sidebar-closed')}>
-                <div className="sidebar-btn" onClick={this.toggleSidebar}>
+                <div className="sidebar-btn" onClick={() => this.setState({openedSidebar: !this.state.openedSidebar})}>
                     <i className='bx bxs-cog'></i>
                 </div>
                 <this.MyDropZone />
@@ -116,13 +214,23 @@ class Main extends React.Component {
     };
 
     render() {
-        console.log('render parent');
         return (
             <main className="main">
                 <this.Sidebar />
                 <div className="div-files-container" dragging="false">
-                    {this.state.files.map((info) => <FileCard key={info.key} _key={info.key} file={info.file} imageRotation={info.imageRotation} pageSize={this.state.pageSize} pageOrientation={this.state.pageOrientation} updateBase64={this.updateBase64}/>)}
+                    {this.state.files.map((info) => <FileCard
+                        key={info.key}
+                        file={info.file}
+                        imageRotation={info.imageRotation}
+                        pageSize={this.state.pageSize}
+                        pageOrientation={this.state.pageOrientation}
+                        updateBase64={(base64) => {this.keyToBase64[info.key] = base64}}
+                        rotateImage={() => this.rotateImage(info.key)}
+                        deleteFileCard={() => {this.deleteFileCard(info.key)}}
+
+                    />)}
                 </div>
+                {this.state.openedModal ? <Modal /> : <></>}
             </main>
         );
     }
