@@ -11,7 +11,7 @@ import Modal from './modal.jsx';
 
 class Main extends React.Component {
     state = {
-        files: [], // {key,  file, imageRotation}
+        files: [], // {key,  file}
         openedSidebar: false,
         dropZoneActive: false,
         pageSize: "adjusted",
@@ -20,7 +20,7 @@ class Main extends React.Component {
     }
 
     numberOfUploadedFiles = 0;
-    keyToBase64 = {}; //[{key:base64}]
+    infoToGeneratePdf = {}; //{key:{base64, imageRotation}}}
 
     updatePage = event => {
         this.setState({
@@ -44,25 +44,26 @@ class Main extends React.Component {
 
         for (let info of this.state.files) {
             promise = promise.then(() => new Promise((resolve, reject) => {
-                let base64 = this.keyToBase64[info.key];
+                let base64 = this.infoToGeneratePdf[info.key]['base64'];
+                let imageRotation = this.infoToGeneratePdf[info.key]['imageRotation'];
 
                 let image = new Image();
                 image.src = base64;
                 image.addEventListener('load', (event) => {
                     let imageWidth;
                     let imageHeight;
-                    if (info.imageRotation === 0) { //imagen sin rotar
+                    if (imageRotation === 0) { //imagen sin rotar
                         imageWidth = image.width;
                         imageHeight = image.height;
 
                     } else { // imagen rotada
                         const canvas = document.createElement('canvas');
                         let ctx = canvas.getContext("2d");
-                        canvas.width = info.imageRotation % 180 === 0 ? image.width : image.height;
-                        canvas.height = info.imageRotation % 180 === 0 ? image.height : image.width;
+                        canvas.width = imageRotation % 180 === 0 ? image.width : image.height;
+                        canvas.height = imageRotation % 180 === 0 ? image.height : image.width;
 
                         ctx.translate(canvas.width / 2, canvas.height / 2);
-                        ctx.rotate(-info.imageRotation * Math.PI / 180);
+                        ctx.rotate(-imageRotation * Math.PI / 180);
                         ctx.drawImage(image, image.width / -2, image.height / -2);
 
                         base64 = canvas.toDataURL();
@@ -103,10 +104,10 @@ class Main extends React.Component {
     onDrop = (files) => {
         let newFiles = files.map(file => {
             this.numberOfUploadedFiles++;
+            this.infoToGeneratePdf[this.numberOfUploadedFiles] = {base64: '', imageRotation: 0};
             return {
                 key: this.numberOfUploadedFiles,
                 file: file,
-                imageRotation: 0,
             };
         });
 
@@ -117,21 +118,9 @@ class Main extends React.Component {
     }
 
 
-    rotateImage = (key) => {
-        let updatedFiles = this.state.files.map(info => {
-            if(info.key === key) {
-                info['imageRotation'] = (info['imageRotation'] + 90) % 360;
-            }
-            return info;
-        });
-        this.setState({files: updatedFiles});
-        console.log('rotar');
-    }
-
     deleteFileCard = (key) => {
         let updatedFiles = this.state.files.filter(info => info.key !== key);
         this.setState({files: updatedFiles});
-        console.log('borrar');
     }
 
     MyDropZone = () => {
@@ -187,22 +176,25 @@ class Main extends React.Component {
     };
 
     render() {
+        console.log('parent')
         return (
             <main className="main">
                 <this.Sidebar />
-                <ReactSortable className="div-files-container" animation='300' ghostClass='file-card-border-ghostClass' dragClass='file-card-border-dragClass' list={this.state.files} setList={(newState) => this.setState({files: newState})}>
+                {/* <ReactSortable className="div-files-container" animation='300' ghostClass='file-card-border-ghostClass' dragClass='file-card-border-dragClass' list={this.state.files} setList={(newState) => this.setState({files: newState})}> */}
+                <div className="div-files-container">
                     {this.state.files.map((info) => <FileCard
                         key={info.key}
                         file={info.file}
-                        imageRotation={info.imageRotation}
                         pageSize={this.state.pageSize}
                         pageOrientation={this.state.pageOrientation}
-                        updateBase64={(base64) => {this.keyToBase64[info.key] = base64}}
-                        rotateImage={() => this.rotateImage(info.key)}
+                        updateBase64={(base64) => {this.infoToGeneratePdf[info.key]['base64'] = base64}}
+                        rotateImage={(imageRotation) => {
+                            this.infoToGeneratePdf[info.key]['imageRotation'] = imageRotation
+                        }}
                         deleteFileCard={() => {this.deleteFileCard(info.key)}}
-
                     />)}
-                </ReactSortable>
+                </div>
+                {/* </ReactSortable> */}
                 {this.state.openedModal ? <Modal /> : <></>}
             </main>
         );

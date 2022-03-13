@@ -199,13 +199,10 @@ html {
 }
 
 .btns-container {
-    width: fit-content;
+    width: 100%;
     height: fit-content;
-    margin: 0;
-    padding: 0;
     position: absolute;
-    top: 0.3125rem;
-    right: 0.3125rem;
+    top: 0.5rem;
     display: flex;
     z-index: 1;
 }
@@ -214,7 +211,7 @@ html {
     width: 1.5rem;
     height: 1.5rem;
     font-size: 1.25rem;
-    margin: auto 0.625rem;
+    margin: auto 0.5rem;
     border-radius: 50%;
     background-color: rgb(179, 179, 179);
     color: rgb(0, 0, 0);
@@ -222,6 +219,10 @@ html {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.rotate-btn{
+    margin-right: auto;
 }
 
 .rotate-btn:hover, .delete-btn:hover {
