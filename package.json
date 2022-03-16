@@ -1,6 +1,6 @@
 {
-  "homepage": "https://bastianparedes.github.io/pdf-constructor-react/",
-  "name": "pdf-constructor-react",
+  "homepage": "./",
+  "name": "pdf-constructor",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
