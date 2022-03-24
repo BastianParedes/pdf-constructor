@@ -1,11 +1,15 @@
 import React from 'react';
-import Dropzone from 'react-dropzone';
+import { BsFillGearFill } from 'react-icons/bs';
+import { FcAddImage } from 'react-icons/fc';
 
+import styles from '../styles/sideBar.module.css';
+
+import Dropzone from 'react-dropzone';
 import pageSizes from '../pageSizes.json';
 
 
 
-function SideBar(props) {
+export default function SideBar(props) {
     let [openedSidebar, setOpenedSidebar] = React.useState(false);
     let [dropZoneActive, setDropZoneActive] = React.useState(false);
 
@@ -29,9 +33,9 @@ function SideBar(props) {
         return (
             <Dropzone onDrop={onDrop} onDragOver={() => setDropZoneActive(true)} onDragLeave={() => setDropZoneActive(false)}>
                 {({getRootProps, getInputProps}) => (
-                    <div className={"dropzone " + (dropZoneActive ? 'dropzone-active' : '')} {...getRootProps()}>
-                        <span className="dropzone-icon"><i className='bx bx-image-add'></i></span>
-                        <span className="dropzone-text">{dropZoneActive ? 'Suelta tus archivos para cargarlos' : 'Arrastra y suelta los archivos aquí o haz click para buscarlos'}</span>
+                    <div className={styles['dropzone'] + ' ' + styles[dropZoneActive ? 'dropzone-active' : '']} {...getRootProps()}>
+                        <span className={styles['dropzone-icon']}><FcAddImage /></span>
+                        <span className={styles['dropzone-text']}>{dropZoneActive ? 'Suelta tus archivos para cargarlos' : 'Arrastra y suelta los archivos aquí o haz click para buscarlos'}</span>
                     </div>
                 )}
             </Dropzone>
@@ -42,9 +46,9 @@ function SideBar(props) {
 
     let PageSize = () => {
         return (
-            <div className="sidebar-section-page-size">
-                <h2 className="page-attribute-tittle">Tamaño de la página</h2>
-                <select className="page-size" name="pageSize" value={props.pageSize} onChange={event => {props.updatePage(event.target.name, event.target.value)}}>
+            <div className={styles['sidebar-section-page-size']}>
+                <h2 className={styles['page-attribute-tittle']}>Tamaño de la página</h2>
+                <select className={styles['page-size']} name='pageSize' value={props.pageSize} onChange={event => {props.updatePage(event.target.name, event.target.value)}}>
                     {pageSizes.dimensions.map((info, pos) => <option key={pos} value={info.value}>{info.textContent}</option>)}
                 </select>
             </div>
@@ -53,11 +57,11 @@ function SideBar(props) {
 
     let PageOrientation = () => {
         return (
-            <div className={"sidebar-section-page-orientation " + (props.pageSize === "adjusted" ? "sidebar-section-page-orientation-hidden" : '')}>
-                <h2 className="page-attribute-tittle">Orientación de la página</h2>
-                <select className="page-orientation" name="pageOrientation" value={props.pageOrientation} onChange={event => {props.updatePage(event.target.name, event.target.value)}}>
-                    <option value="portrait">Vertical</option>
-                    <option value="landscape">Horizontal</option>
+            <div className={styles['sidebar-section-page-orientation'] + ' ' + styles[props.pageSize === 'adjusted' ? 'sidebar-section-page-orientation-hidden' : '']}>
+                <h2 className={styles['page-attribute-tittle']}>Orientación de la página</h2>
+                <select className={styles['page-orientation']} name='pageOrientation' value={props.pageOrientation} onChange={event => {props.updatePage(event.target.name, event.target.value)}}>
+                    <option value='portrait'>Vertical</option>
+                    <option value='landscape'>Horizontal</option>
                 </select>
             </div>
         );
@@ -65,19 +69,17 @@ function SideBar(props) {
 
 
     return (
-        <div className={"sidebar " + (openedSidebar ? '' : 'sidebar-closed')}>
-            <div className="sidebar-btn" onClick={() => setOpenedSidebar(!openedSidebar)}>
-                <i className='bx bxs-cog'></i>
+        <div className={styles['sidebar'] + ' ' + styles[openedSidebar ? '' : 'sidebar-closed']}>
+            <div className={styles['sidebar-btn']} onClick={() => setOpenedSidebar(!openedSidebar)}>
+                <BsFillGearFill />
             </div>
             <MyDropZone />
             <PageSize />
             <PageOrientation />
-            <div className="sidebar-section-generate-pdf">
-                <button className="generate-pdf-btn" onClick={props.generatePdf}>Generar PDF</button>
+            <div className={styles['sidebar-section-generate-pdf']}>
+                <button className={styles['generate-pdf-btn']} onClick={props.generatePdf}>Generar PDF</button>
             </div>
         </div>
     );
 }
 
-
-export default SideBar;

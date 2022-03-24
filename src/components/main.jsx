@@ -1,16 +1,18 @@
 import React from 'react';
-import {ReactSortable} from "react-sortablejs";
+import {ReactSortable} from 'react-sortablejs';
 import jsPDF from 'jspdf';
+
+import styles from '../styles/main.module.css';
 
 import Sidebar from './sideBar.jsx'
 import FileCard from './fileCard.jsx';
 import Modal from './modal.jsx';
 
-class Main extends React.Component {
+export default class Main extends React.Component {
     state = {
         files: [], // {key,  file}
-        pageSize: "adjusted",
-        pageOrientation: "portrait",
+        pageSize: 'adjusted',
+        pageOrientation: 'portrait',
         openedModal: false
     }
 
@@ -47,7 +49,7 @@ class Main extends React.Component {
 
                     } else { // imagen rotada
                         const canvas = document.createElement('canvas');
-                        let ctx = canvas.getContext("2d");
+                        let ctx = canvas.getContext('2d');
                         canvas.width = imageRotation % 180 === 0 ? image.width : image.height;
                         canvas.height = imageRotation % 180 === 0 ? image.height : image.width;
 
@@ -106,14 +108,14 @@ class Main extends React.Component {
 
     render() {
         return (
-            <main className="main">
+            <main className={styles['main']}>
 
                 <Sidebar pageSize={this.state.pageSize} pageOrientation={this.state.pageOrientation} updatePage={(pagePropertie, newValue) => {this.setState({[pagePropertie]: newValue})}} generatePdf={this.generatePdf} onDrop={(newFiles, newInfo) => {
                     this.infoToGeneratePdf = {...this.infoToGeneratePdf, ...newInfo};
                     this.setState({files: [...this.state.files, ...newFiles], openedModal: true});
                 }}/>
 
-                <ReactSortable className="div-files-container" animation='300' ghostClass='file-card-border-ghostClass' dragClass='file-card-border-dragClass' list={this.state.files} setList={(newState) => this.setState({files: newState})}>
+                <ReactSortable className={styles['div-files-container']} animation='300' ghostClass={styles['file-card-border-ghostClass']} list={this.state.files} setList={(newState) => this.setState({files: newState})}>
                     {this.state.files.map((info) => <FileCard
                         key={info.key}
                         file={info.file}
@@ -133,5 +135,3 @@ class Main extends React.Component {
     }
 }
 
-
-export default Main;

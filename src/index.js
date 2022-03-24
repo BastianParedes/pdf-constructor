@@ -1,13 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+import 'normalize.css';
+import './styles/general.css';
+
 import Header from './components/header.jsx';
 import Main from './components/main.jsx';
 import Footer from './components/footer.jsx';
 
 
-import './styles/normalize.css';
-import './styles/main.css';
 
 
 ReactDOM.render(

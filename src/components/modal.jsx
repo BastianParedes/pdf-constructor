@@ -1,11 +1,12 @@
-function Modal() {
+import styles from '../styles/modal.module.css';
+
+export default function Modal() {
     return (
-        <div className="modal-container">
-            <div className="modal-content">
-                <img alt='Loading' src={require("../images/loading.gif")} className="loading-gif"/>
+        <div className={styles['modal-container']}>
+            <div className={styles['modal-content']}>
+                <img alt='Loading' src={require('../images/loading.gif')} className={styles['loading-gif']}/>
             </div>
         </div>
     );
 }
 
-export default Modal;

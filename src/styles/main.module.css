@@ -1,0 +1,31 @@
+
+.main {
+    height: 85vh;
+    display: flex;
+}
+
+
+
+.div-files-container {
+    background-color: rgb(200, 200, 200);
+    flex-grow: 1;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr));
+    place-items: start center;
+    gap: 3rem;
+    padding: 3rem;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+
+
+
+.file-card-border-ghostClass {
+    border: 0.0625rem dashed rgb(0, 0, 255);
+}
+
+.file-card-border-ghostClass div {
+    opacity: 0;
+}
+

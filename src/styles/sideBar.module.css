@@ -1,0 +1,148 @@
+
+
+.sidebar {
+    width: 25%;
+    height: 85vh;
+    padding: 0 0.625rem;
+    border: 2px rgb(0, 0, 0);
+    border-style: none solid none none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(219, 219, 219);
+    transition: all .4s ease-out;
+    z-index: 2;
+}
+
+.sidebar-btn {
+    display: none;
+}
+
+
+
+
+.dropzone {
+    position: relative;
+    flex-grow: 2;
+    width: 100%;
+    margin: 0.625rem 0;
+    border: 0.1875rem rgb(0, 0, 0) solid;
+    border-radius: 1.5625rem;
+    background-color: rgb(168, 168, 168);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    cursor: pointer;
+}
+
+
+
+.dropzone-icon {
+    font-size: 3rem;
+}
+
+.dropzone-text {
+    text-align: center;
+    font-size: 1.5rem;
+    line-height : 3rem;
+}
+
+
+.dropzone-active::before {
+    content: ' ';
+    position: absolute;
+    z-index: -1;
+    top: 0.3125rem;
+    left: 0.3125rem;
+    right: 0.3125rem;
+    bottom: 0.3125rem;
+    border: 0.3125rem rgb(0, 0, 0) dashed;
+    border-radius: 1.5625rem;
+}
+
+
+
+.sidebar-section-page-orientation {
+    font-size: 1.5rem;
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+}
+
+.sidebar-section-page-size, .sidebar-section-page-orientation {
+    font-size: 1.5rem;
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+}
+
+.sidebar-section-page-orientation-hidden {
+    opacity: 0;
+    transform: scale(0);
+}
+
+.sidebar-section-generate-pdf {
+    font-size: 1.5rem;
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+}
+
+.page-attribute-tittle {
+    font-size: 1.5rem;
+}
+
+.page-size {
+    width: 100%;
+}
+
+.page-orientation {
+    width: 100%;
+}
+
+.generate-pdf-btn {
+    height: 70%;
+    width: 90%;
+    background-color: rgb(255, 255, 255);
+}
+
+.generate-pdf-btn:hover {
+    background-color: rgb(200, 200, 200);
+}
+
+
+
+
+@media (max-device-width: 700px) {
+    .sidebar {
+        position: absolute;
+        min-width: fit-content;
+        max-width: calc(100vw - 6.25rem);
+    }
+
+    .sidebar-closed {
+        transform: translateX(-100%);
+    }
+
+    .sidebar-btn {
+        font-size: 5rem;
+        position: absolute;
+        top: 0.625rem;
+        right: -5.625rem;
+        z-index: 1;
+        cursor: pointer;
+        background-color: rgb(255, 255, 255);
+        color: rgb(0, 0, 0);
+        border-radius: 50%;
+        display: flex;
+    }
+}

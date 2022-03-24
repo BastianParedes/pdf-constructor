@@ -1,10 +1,11 @@
-function Header() {
+import styles from '../styles/header.module.css';
+
+export default function Header() {
     return (
-        <header className="header">
-            <img className="header-logo" alt='Bastián Paredes' src={require("../images/logo.png")}/>
-            <h1 className="header-tittle">Imagen a PDF</h1>
+        <header className={styles['header']}>
+            <img className={styles['header-logo']} alt='Bastián Paredes' src={require('../images/logo.png')}/>
+            <h1 className={styles['header-tittle']}>Imagen a PDF</h1>
         </header>
     );
 }
 
-export default Header;
